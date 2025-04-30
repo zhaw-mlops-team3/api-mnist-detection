@@ -23,14 +23,14 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t cloud-run/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA .
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA .
 
       - name: Push Docker image
         run: |
-          docker push cloud-run/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA
+          docker push gcr.io/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA
 
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: ${{ secrets.GCP_CLOUD_RUN_SERVICE }}
-          image: cloud-run/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA
+          image: gcr.io/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA
