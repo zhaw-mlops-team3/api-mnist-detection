@@ -23,14 +23,14 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA .
+          docker build -t europe-west6-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA .
 
       - name: Push Docker image
         run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA
+          docker push europe-west6-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA
 
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: ${{ secrets.GCP_CLOUD_RUN_SERVICE }}
-          image: gcr.io/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA
+          image: europe-west6-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA
