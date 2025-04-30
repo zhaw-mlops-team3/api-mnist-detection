@@ -1,9 +1,8 @@
 name: Build and Deploy to GCP Cloud Run
 
 on:
-  push:
-    branches:
-      - main
+  repository_dispatch:
+    types: [production]
 
 jobs:
   build-and-deploy:
@@ -24,7 +23,7 @@ jobs:
 
       - name: Build Docker image
         run: |-
-          docker build -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/cloud-run/$GITHUB_REPOSITORY:$GITHUB_SHA .
+          docker build --build-arg MODEL="${{ github.event.client_payload.model }}" -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/cloud-run/$GITHUB_REPOSITORY:$GITHUB_SHA .
 
       - name: Push Docker image to Artifact Registry
         run: |-
