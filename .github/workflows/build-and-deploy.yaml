@@ -1,0 +1,37 @@
+name: Build and Deploy to Cloud Run (Docker)
+
+on:
+  push:
+    branches:
+      - main # or your deployment branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Configure Docker for gcloud
+        run: gcloud auth configure-docker
+
+      - name: Build Docker image
+        run: |
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA .
+
+      - name: Push Docker image
+        run: |
+          docker push gcr.io/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA
+
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: ${{ secrets.GCP_CLOUD_RUN_SERVICE }}
+          image: gcr.io/${{ secrets.GCP_PROJECT }}/$GITHUB_REPOSITORY:$GITHUB_SHA
+          region: ${{ secrets.GCP_REGION }}
