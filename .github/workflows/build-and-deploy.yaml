@@ -18,15 +18,11 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Configure Docker for Artifact Registry
-        run: |-
-          gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
-
       - name: Build Docker image
         run: |-
           docker build -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/cloud-run/$GITHUB_REPOSITORY:$GITHUB_SHA .
 
-      - name: Push Docker image to Artifact Registry
+      - name: Push Docker image
         run: |-
           docker push ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/cloud-run/$GITHUB_REPOSITORY:$GITHUB_SHA
 
