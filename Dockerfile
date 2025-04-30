@@ -9,4 +9,4 @@ COPY . ./
 ENV PORT 80
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["fastapi", "run", "app/main.py", "--port", "80"]
+CMD ["fastapi", "run", "main.py", "--port", "80"]
