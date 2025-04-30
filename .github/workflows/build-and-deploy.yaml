@@ -2,7 +2,7 @@ name: Build and Deploy to GCP Cloud Run
 
 on:
   repository_dispatch:
-    types: [production]
+    types: [build-and-deploy]
 
 jobs:
   build-and-deploy:
