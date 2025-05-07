@@ -1,8 +1,8 @@
 FROM python:3.11
 WORKDIR /code
 
-ARG MODEL
-ENV MODEL=${MODEL}
+ARG WANDB_ARTIFACT_NAME
+ENV WANDB_ARTIFACT_NAME=${WANDB_ARTIFACT_NAME}
 
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
