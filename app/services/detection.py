@@ -16,7 +16,7 @@ def get_model():
     run = wandb.init()
 
     artifact = run.use_artifact(
-        artifact_or_name="zhaw-mlops-group3/mnist-pipeline/mnist-model:v16",
+        artifact_or_name=os.getenv("WANDB_ARTIFACT_NAME"),
         type="model",
     )
     artifact_dir = artifact.download()
