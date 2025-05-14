@@ -43,7 +43,7 @@ class DetectionService:
 
     def detect(self, imageBase64):
         image_data = base64.b64decode(imageBase64)
-        image = Image.open(BytesIO(image_data)).convert("L")  # Convert to grayscale
+        image = Image.open(BytesIO(image_data)).convert("L")
 
         transform = transforms.Compose(
             [
@@ -54,8 +54,8 @@ class DetectionService:
         )
         image_tensor = transform(image).unsqueeze(0)
 
-        # Run the model
         with torch.no_grad():
             results = self._model(image_tensor)
             predicted_class = torch.argmax(results, dim=1).item()
+
         return predicted_class
