@@ -12,6 +12,7 @@ from app.net import Net
 
 @lru_cache
 def get_model():
+    wandb.login(key=os.getenv("WANDB_API_KEY"))
     run = wandb.init()
 
     artifact = run.use_artifact(
